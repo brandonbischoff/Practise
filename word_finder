@@ -1,0 +1,56 @@
+import random
+
+
+#   function that generates a sentance
+#   depending on the length of a given sentance
+def sentance_generator(original_sentance):
+
+    alphabet = " abcdefghijklmnop"
+    produced_sentance = ''
+
+    for character in original_sentance:
+        produced_sentance += alphabet[random.randrange(len(alphabet))]
+
+    return(produced_sentance)
+
+
+# compare the entered sentance to the original sentance
+def compare_sentances(original_sentance, produced_sentance):
+    matched_characters = 0
+
+    for index, character in enumerate(original_sentance):
+        if character == produced_sentance[index]:
+            matched_characters += 1
+
+    return(matched_characters / (len(original_sentance))) * 100
+
+# A function that takes a sentance and tries to find the same sentance.
+# keeps track of every 1000 sentances and chooses the best one
+
+
+def monkey(sentance):
+    found = False
+    count = 0
+    best_sentance_percent = 0.0
+    best_sentance = ''
+
+    while found == False:
+        generated_sentace = sentance_generator(sentance)
+        percentage = compare_sentances(sentance, generated_sentace)
+
+        if percentage == 100.0:
+            count += 1
+            break
+        if percentage != 100.0:
+            count += 1
+        if percentage > best_sentance_percent:
+            best_sentance_percent = percentage
+            best_sentance = [generated_sentace, count]
+        if count % 1000 == 0:
+            print(best_sentance)
+            print(count)
+
+    return(count, sentance)
+
+
+print(monkey('hello my name is brandon'))
